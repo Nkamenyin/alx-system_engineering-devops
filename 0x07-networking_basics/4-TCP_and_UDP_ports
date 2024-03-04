@@ -2,20 +2,4 @@
 
 #Display listening ports with PID and program name
 #Use netstat to get listening ports information
-
-listening_ports=$(netstat -tuln | grep LISTEN)
-
-#Print the header
-echo "PID   Port   Program"
-
-#Loop through each line of listening ports
-while IFS= read -r line; do
-    
-    #Extract port and PID information
-    	port=$(echo "$line" | awk '{print $4}' | awk -F ':' '{print $NF}')
-	pid=$(echo "$line" | awk '{print $NF}')
-	# Get program name from PID
-		program=$(ps -p $pid -o comm=)
-		#Display PID, port, and program name
-		printf "%-6s%-7s%s\n" "$pid" "$port" "$program"
-	done <<< "$listening_ports"
+netstat -lp
